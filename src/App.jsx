@@ -1,122 +1,96 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
+import Header from './components/Header';
+import RingkasanMemori from './components/RingkasanMemori';
+import FormTambahMemori from './components/FormTambahMemori';
+import DaftarMemori from './components/DaftarMemori';
+import Footer from './components/Footer';
+
+// Pilihan kategori untuk form (dikirim ke FormTambahMemori lewat props)
+const KATEGORI = ['Liburan', 'Keluarga', 'Momen Spesial', 'Lainnya'];
+
+// Entitas utama aplikasi ini: "Memori" (foto atau video singkat)
+// Data awal (dummy) sebelum nanti disambung ke backend/API di Pekan 11
+const memoriAwal = [
+  {
+    id: 1,
+    judul: 'Liburan ke Pantai',
+    tanggal: '2026-08-12',
+    kategori: 'Liburan',
+    jenis: 'Foto',
+    gambar: '/images/pantai.jpg',
+    alt: 'Foto liburan keluarga di pantai',
+    deskripsi: 'Momen liburan bersama keluarga di pantai, menikmati suasana sore dan deburan ombak.',
+  },
+  {
+    id: 2,
+    judul: 'Hari Wisuda',
+    tanggal: '2026-09-03',
+    kategori: 'Momen Spesial',
+    jenis: 'Foto',
+    gambar: '/images/pantai2.jpg',
+    alt: 'Foto wisuda bersama teman kuliah',
+    deskripsi: 'Foto bersama teman-teman kuliah di hari wisuda. Akhirnya semua perjuangan terbayar.',
+  },
+  {
+    id: 3,
+    judul: 'Ulang Tahun Adik',
+    tanggal: '2026-09-20',
+    kategori: 'Keluarga',
+    jenis: 'Video',
+    gambar: '/images/pantai3.jpg',
+    alt: 'Video singkat pesta ulang tahun adik',
+    deskripsi: 'Video singkat saat adik meniup lilin di pesta ulang tahunnya bersama keluarga.',
+  },
+];
 
 function App() {
-  const [count, setCount] = useState(0)
+  // State utama: daftar memori disimpan sebagai array di sini
+  const [daftarMemori, setDaftarMemori] = useState(memoriAwal);
+
+  // Dipanggil oleh FormTambahMemori saat tombol "Tambah" ditekan
+  const tambahMemori = (memoriBaru) => {
+    const memori = {
+      ...memoriBaru,
+      id: Date.now(), // id unik, dipakai sebagai key
+      gambar: '/images/pantai.jpg', // sementara pakai gambar contoh (belum ada upload)
+      alt: `Gambar contoh untuk memori ${memoriBaru.judul}`,
+    };
+    setDaftarMemori((sebelumnya) => [memori, ...sebelumnya]);
+  };
+
+  // Dipanggil oleh KartuMemori saat tombol "Hapus" ditekan
+  const hapusMemori = (id) => {
+    setDaftarMemori((sebelumnya) => sebelumnya.filter((m) => m.id !== id));
+  };
+
+  // Nilai turunan dari state (tidak perlu state sendiri)
+  const jumlahVideo = daftarMemori.filter((m) => m.jenis === 'Video').length;
+  const jumlahFoto = daftarMemori.length - jumlahVideo;
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="app">
+      <Header
+        judul="Mini Gallery"
+        subjudul="Simpan dan nikmati kembali memori berharga kamu"
+      />
 
-      <div className="ticks"></div>
+      <main className="konten">
+        <RingkasanMemori
+          total={daftarMemori.length}
+          jumlahFoto={jumlahFoto}
+          jumlahVideo={jumlahVideo}
+        />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        <FormTambahMemori daftarKategori={KATEGORI} onTambah={tambahMemori} />
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        <h2 className="judul-bagian">Daftar Memori</h2>
+        <DaftarMemori daftar={daftarMemori} onHapus={hapusMemori} />
+      </main>
+
+      <Footer nama="Mini Gallery" tahun={new Date().getFullYear()} />
+    </div>
+  );
 }
 
-export default App
+export default App;
