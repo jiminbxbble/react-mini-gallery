@@ -4,6 +4,7 @@ import Header from './components/Header';
 import RingkasanMemori from './components/RingkasanMemori';
 import FormTambahMemori from './components/FormTambahMemori';
 import DaftarMemori from './components/DaftarMemori';
+import InspirasiFoto from './components/InspirasiFoto';
 import Footer from './components/Footer';
 
 // Pilihan kategori untuk form (dikirim ke FormTambahMemori lewat props)
@@ -86,6 +87,9 @@ function App() {
 
         <h2 className="judul-bagian">Daftar Memori</h2>
         <DaftarMemori daftar={daftarMemori} onHapus={hapusMemori} />
+
+        {/* Data dari API eksternal (Tugas 7) */}
+        <InspirasiFoto />
       </main>
 
       <Footer nama="Mini Gallery" tahun={new Date().getFullYear()} />

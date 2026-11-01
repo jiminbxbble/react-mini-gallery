@@ -255,6 +255,70 @@
   font-weight: 400;
 }
 
+/* ===== Inspirasi Foto (data dari API) ===== */
+.inspirasi-deskripsi {
+  margin: -8px 0 16px;
+  color: #6b6358;
+}
+
+.status {
+  border-radius: 10px;
+  padding: 28px 16px;
+  text-align: center;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.status-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--teal);
+  font-weight: 600;
+}
+
+.spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid var(--pasir);
+  border-top-color: var(--teal);
+  border-radius: 50%;
+  animation: putar 0.8s linear infinite;
+}
+
+@keyframes putar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.status-error {
+  border: 1px solid #f0b8b4;
+  background: #fdecea;
+  color: #b3261e;
+}
+
+.status-error p {
+  margin: 0 0 14px;
+  font-weight: 600;
+}
+
+.btn-coba-lagi {
+  background-color: #b3261e;
+  color: #fff;
+}
+
+.btn-coba-lagi:hover {
+  background-color: #8f1d17;
+}
+
+.link-sumber {
+  color: var(--teal);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
 /* ===== Responsif ===== */
 @media (max-width: 600px) {
   .form-grid {
